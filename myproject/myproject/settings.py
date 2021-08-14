@@ -12,12 +12,20 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-import json
 import sys
+import json
+
+# Django 프로젝트 폴더 위치
 BASE_DIR = Path(__file__).resolve().parent.parent
+# 컨테이너 폴더 위치
 ROOT_DIR = os.path.dirname(BASE_DIR)
-SECRET_BASE_FILE = os.path.join(BASE_DIR, 'secrets.json')
-secrets = json.loads(open(SECRET_BASE_FILE).read())
+# secrets.json 경로
+SECRETS_PATH = os.path.join(ROOT_DIR, 'secrets.json')
+# json형식을 파이썬 객체로 변환
+secrets = json.loads( open(SECRETS_PATH).read())
+
+#  동적 할당 !!!
+## __name__은 현재 파일이름인 settings.py
 for key, value in secrets.items():
     setattr(sys.modules[__name__], key, value)
 
